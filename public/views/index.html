@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>skill base</title>
+</head>
+
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+
+<input style="display: none" type="email" id="email" name="email" placeholder="email address">
+<input style="display: none" type="text" id="subject" name="subject" placeholder="subject">
+<textarea style="display: none" name="emailText" id="emailText" cols="30" rows="10"></textarea>
+<button style="display: none" id="sendEmail" onclick="sendEmail(email.value, subject.value)">Send email</button>
+<button onclick="emailInputVisible()">Create email</button>
+
+<h2 onclick="getAllUsers()">USERS</h2>
+<div id="users"></div>
+
+<button onclick="formVisible()">Create user</button>
+
+<form id="createForm" style="display: none">
+    <label>Name: </label><br>
+    <input name="nameU" type="text"><br><br>
+
+    <label>Surname: </label><br>
+    <input name="surname" type="text"><br><br>
+
+    <label>Email: </label><br>
+    <input name="email" type="email"><br><br>
+
+    <label>Phone: </label><br>
+    <input name="phone" type="text"><br>
+
+    <button onclick="formInvisible()" style="display: inline">Cancel</button>
+    <button onclick="createUser(nameU.value, surname.value, email.value, phone.value)" style="display: inline">Send</button>
+</form>
+
+<script>
+    let socket = io('http://localhost:5000');
+
+    const userData = document.getElementById('users');
+    const createForm = document.getElementById('createForm');
+
+    socket.on('users', (data) => {
+        data.forEach((user) => {
+            userData.innerHTML += `
+            <ul>
+                <li>
+                ${user.name} ${user.surname}
+                    <ul>
+                        <li>email: ${user.email}</li>
+                        <li>phone: ${user.phone}</li>
+                    </ul>
+                </li>
+            </ul>`
+        });
+    });
+
+
+    function emailInputVisible() {
+        const emailText = document.getElementById('emailText');
+        const sendEmail = document.getElementById('sendEmail');
+        const subject = document.getElementById('subject');
+        const email = document.getElementById('email');
+        emailText.style.display = 'block';
+        sendEmail.style.display = 'block';
+        subject.style.display = 'block';
+        email.style.display = 'block';
+    }
+
+    function formVisible() {
+        createForm.style.display = 'block';
+    }
+
+    function formInvisible() {
+        createForm.style.display = 'none';
+    }
+
+    function getAllUsers() {
+        userData.innerHTML = '';
+        socket.emit('getUsers');
+    }
+
+    function sendEmail(email, subject) {
+        const text = document.getElementById('emailText');
+        socket.emit('sendEmail', {email, subject, text: text.value});
+    }
+
+    function createUser(name, surname, email, phone) {
+
+        const userData = {
+          name,
+          surname,
+          email,
+          phone
+        };
+
+
+        socket.emit('createUser', userData);
+    }
+</script>
+
+</body>
+</html>
