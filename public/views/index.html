@@ -12,28 +12,32 @@
 <input style="display: none" type="text" id="subject" name="subject" placeholder="subject">
 <textarea style="display: none" name="emailText" id="emailText" cols="30" rows="10"></textarea>
 <button style="display: none" id="sendEmail" onclick="sendEmail(email.value, subject.value)">Send email</button>
-<button onclick="emailInputVisible()">Create email</button>
+<button id="btnCreateEmailVisible" onclick="emailInputVisible()">Create email</button>
 
 <h2 onclick="getAllUsers()">USERS</h2>
 <div id="users"></div>
 
-<button onclick="formVisible()">Create user</button>
+<button onclick="formVisible()" id="btnCreateFormVisible">Create user</button>
 
 <form id="createForm" style="display: none">
     <label>Name: </label><br>
-    <input name="nameU" type="text"><br><br>
+    <input id="userName" name="nameU" type="text"><br><br>
 
     <label>Surname: </label><br>
-    <input name="surname" type="text"><br><br>
+    <input id="userSurname" name="surname" type="text"><br><br>
 
     <label>Email: </label><br>
-    <input name="email" type="email"><br><br>
+    <input id="userEmail" name="email" type="email"><br><br>
 
     <label>Phone: </label><br>
-    <input name="phone" type="text"><br>
+    <input id="userPhone" name="phone" type="text"><br>
 
     <button onclick="formInvisible()" style="display: inline">Cancel</button>
-    <button onclick="createUser(nameU.value, surname.value, email.value, phone.value)" style="display: inline">Send</button>
+    <button onclick="createUser(nameU.value, surname.value, email.value, phone.value)"
+            style="display: inline"
+            id="btnCreateUser">
+        Send
+    </button>
 </form>
 
 <script>

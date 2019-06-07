@@ -7,10 +7,12 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "dotenv": "^8.0.0",
     "express": "^4.17.0",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
     "nodemailer": "^6.1.1",
+    "pdf2json": "^1.1.8",
     "sequelize": "^5.8.6",
     "socket.io": "^2.2.0"
   }

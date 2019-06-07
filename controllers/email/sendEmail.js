@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-const {userAddress, userPassword} = require('./../../config/email');
 
 module.exports = async (body) => {
     try {
@@ -8,8 +7,8 @@ module.exports = async (body) => {
             service: "gmail",
             secure: false, // true for 465, false for other ports
             auth: {
-                user: userAddress, // generated ethereal user
-                pass: userPassword // generated ethereal password
+                user: process.env.USER_ADDRESS, // generated ethereal user
+                pass: process.env.USER_PASSWORD // generated ethereal password
             }
         });
 
@@ -23,7 +22,7 @@ module.exports = async (body) => {
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: userAddress, // sender address
+            from: process.env.USER_ADDRESS, // sender address
             to: email, // list of receivers
             subject: subject, // Subject line
             text: text // plain text body
